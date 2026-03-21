@@ -41,30 +41,33 @@ Time Generated (timestamp)
 
 Filters were applied to isolate failed authentication attempts and identify suspicious patterns.
 
-4.  Analysis
+## 4.  Analysis
 
-The analysis of Event ID 4625 logs revealed multiple failed authentication attempts across different access methods.
+The analysis of Event ID 4625 logs revealed multiple failed authentication attempts across different logon types.
+<img width="1887" height="428" alt="image" src="https://github.com/user-attachments/assets/71dac9f2-ff25-4f99-b8e2-d0d05a6ee6a3" />
+###  Logon Type Distribution
+- Logon Type 3 (Network): 19 events  
+- Logon Type 10 (RDP): 3 events  
+- Logon Type 2 (Local): 5 events
+<img width="1494" height="340" alt="image" src="https://github.com/user-attachments/assets/849ab907-fd75-4031-8e76-1794112e10e9" />
 
- Observed Patterns
-Repeated login failures occurring within seconds
-<img width="1494" height="340" alt="image" src="https://github.com/user-attachments/assets/b1ed578b-7f4f-4d5a-bcbf-0f6866f189be" />
+<img width="1554" height="349" alt="image" src="https://github.com/user-attachments/assets/fa098f2b-5e40-4f9c-a542-7beddc67cc85" />
+###  Observed Patterns
 
+- Repeated login failures occurring within short time intervals  
+- The same user account targeted multiple times  
+- Presence of Logon Type 10 events, indicating RDP access attempts  
+- Majority of attempts associated with Logon Type 3 (network-based authentication)  
+/>
+###  Behavioral Analysis
 
-The same user account targeted multiple times
-Presence of Logon Type 10 (RDP) events
-Source IP addresses identified as external/untrusted
+- The high frequency of network-based failed logins (Logon Type 3) suggests possible automated or non-interactive authentication attempts  
+- Repeated targeting of a single account indicates focused behavior rather than random user error  
+- The presence of RDP-related failures confirms that remote access services are exposed and being tested  
+- Source IP addresses identified as external/untrusted
 <img width="1887" height="428" alt="image" src="https://github.com/user-attachments/assets/71dac9f2-ff25-4f99-b8e2-d0d05a6ee6a3" />
 
-
-Additional authentication attempts via other logon types
-<img width="1554" height="349" alt="image" src="https://github.com/user-attachments/assets/fa098f2b-5e40-4f9c-a542-7beddc67cc85" />
-
- Behavioral Analysis
-High frequency of failed logins suggests automated activity
-Repeated targeting of a single account indicates focused attack behavior
-Presence of RDP attempts confirms exposure of remote access services
-
-Overall, the pattern is consistent with automated authentication attempts rather than normal user behavior.
+Overall, the activity indicates suspicious authentication behavior, with stronger evidence of network-based attempts and limited RDP involvement.
 
 5.  Findings
 
@@ -109,7 +112,7 @@ Apply least privilege principle
 Automate detection using PowerShell scripts
 Correlate failed (4625) and successful (4624) logins
 Implement alerting and response automation
-8. 📎 Conclusion
+8.  Conclusion
 
 This project demonstrated how to simulate and analyze failed authentication attempts in a Windows environment, replicating patterns commonly associated with brute force attacks.
 
