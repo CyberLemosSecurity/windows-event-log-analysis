@@ -7,16 +7,22 @@ Detect and analyze failed logon attempts in a Windows Server environment using s
 The lab environment was built using VMware Workstation to simulate a real-world Windows Server scenario.
 
 - Virtualization Platform: VMware Workstation
-- Operating System: Windows Server 2022
-- Network Configuration: NAT with manually assigned static IP address
+![Untitled](https://github.com/user-attachments/assets/c8e9ffac-2c81-4eec-b8e1-41a79f02c29e)
+
+- Operating System: Windows Server 2025
+<img width="1526" height="840" alt="image" src="https://github.com/user-attachments/assets/0a47713d-78b0-490d-9540-86e129883581" />
+- Network Configuration: Bridge with DHCP Activate.
+<img width="1152" height="823" alt="image" src="https://github.com/user-attachments/assets/72aa2b72-8b5d-4f5d-bb72-597e240e6275" />
+
 - Remote Access: RDP (Remote Desktop Protocol) enabled and exposed for testing
 - Logging: Windows Security Event Logs enabled (Event Viewer)
 
 This setup allowed the simulation and observation of failed logon attempts, particularly those related to RDP access.
 
 3. Data Collection (Event Viewer - ID 4625)
-Security event logs were collected using the Windows Event Viewer, focusing on failed logon attempts.
 
+Security event logs were collected using the Windows Event Viewer, focusing on failed logon attempts.
+<img width="1744" height="309" alt="a7be3eba-44a3-4daf-a916-1ad873d06ad3" src="https://github.com/user-attachments/assets/896bc7db-5c82-4414-8eea-92d15814f165" />
 - Tool Used: Event Viewer (Windows Logs > Security)
 - Event ID: 4625 (Failed Logon)
 - Log Source: Security Logs
@@ -30,7 +36,6 @@ The following key fields were analyzed:
 - Time Generated (timestamp of each attempt)
 
 This approach allowed the identification of repeated failed logon patterns and potential unauthorized access attempts.
-<img width="1744" height="309" alt="a7be3eba-44a3-4daf-a916-1ad873d06ad3" src="https://github.com/user-attachments/assets/896bc7db-5c82-4414-8eea-92d15814f165" />
    
 4. Analysis
 The analysis of Event ID 4625 logs revealed a high frequency of failed logon attempts within short time intervals, indicating a non-human pattern of activity.
@@ -71,10 +76,7 @@ This suggests either:
 
 Although not confirmed as malicious, the behavior is considered suspicious and requires further investigation.
 
-<img width="786" height="119" alt="image" src="https://github.com/user-attachments/assets/6b47127e-906b-441b-9c22-c010350ea90a" />
-
-
-10. Mitigation
+6. Mitigation
 To mitigate brute force attacks targeting RDP services, the following security measures are recommended:
 
 - Restrict RDP access using firewall rules or VPN instead of exposing it directly to the internet
@@ -87,7 +89,7 @@ To mitigate brute force attacks targeting RDP services, the following security m
 
 These measures significantly reduce the attack surface and improve the overall security posture of the system.
 
-12. Conclusion
+7. Conclusion
 Through this project, it was possible to simulate and analyze failed authentication attempts in a Windows environment, replicating patterns commonly associated with brute force attacks.
 
 Although the activity originated from a controlled internal source, the observed behavior closely mirrors real-world attack scenarios, demonstrating how easily exposed services like RDP can become targets.
