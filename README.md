@@ -1,125 +1,120 @@
-Windows Event Log Analysis - RDP Attack Detection
+🛡️ Windows Event Log Analysis – RDP Attack Detection
+1.  Objective
 
-1. Objective
-Detect and analyze failed logon attempts in a Windows Server environment using security event logs, with a focus on identifying potential brute force attacks via Remote Desktop Protocol (RDP) and applying basic mitigation strategies.
+Detect and analyze failed logon attempts in a Windows Server environment using security event logs, focusing on identifying potential brute force attacks via Remote Desktop Protocol (RDP) and applying mitigation strategies.
 
-2. Environment (VMware + Windows Server)
+2.  Environment
+
 The lab environment was built using VMware Workstation to simulate a real-world Windows Server scenario.
 
-- Virtualization Platform: VMware Workstation
-![Untitled](https://github.com/user-attachments/assets/c8e9ffac-2c81-4eec-b8e1-41a79f02c29e)
+🔧 Configuration
+Virtualization Platform: VMware Workstation
+<img width="1695" height="811" alt="image" src="https://github.com/user-attachments/assets/f62c73bd-ac46-49f0-b135-539d277dd88c" />
 
-- Operating System: Windows Server 2025
-<img width="1526" height="840" alt="image" src="https://github.com/user-attachments/assets/0a47713d-78b0-490d-9540-86e129883581" />
-- Network Configuration: Bridge with DHCP Activate.
-<img width="1152" height="823" alt="image" src="https://github.com/user-attachments/assets/72aa2b72-8b5d-4f5d-bb72-597e240e6275" />
+Operating System: Windows Server 2025
+<img width="1526" height="840" alt="image" src="https://github.com/user-attachments/assets/e3cb630e-c17a-4f98-8b1e-2dccf3cbcc2c" />
 
-- Remote Access: RDP (Remote Desktop Protocol) enabled and exposed for testing
-- Logging: Windows Security Event Logs enabled (Event Viewer)
+Network Configuration: Bridged Network with DHCP enabled
+<img width="1152" height="823" alt="image" src="https://github.com/user-attachments/assets/4347e4f7-7b5c-4b79-870a-a83b9aaec857" />
 
-This setup allowed the simulation and observation of failed logon attempts, particularly those related to RDP access.
+Remote Access: RDP enabled and exposed for testing
+Logging: Windows Security Event Logs enabled via Event Viewer
 
-3. Data Collection (Event Viewer - ID 4625)
+This setup allowed the simulation and observation of failed logon attempts, particularly those related to remote access.
 
-Security event logs were collected using the Windows Event Viewer, focusing on failed logon attempts.
-<img width="1744" height="309" alt="a7be3eba-44a3-4daf-a916-1ad873d06ad3" src="https://github.com/user-attachments/assets/896bc7db-5c82-4414-8eea-92d15814f165" />
-- Tool Used: Event Viewer (Windows Logs > Security)
-- Event ID: 4625 (Failed Logon)
-- Log Source: Security Logs
+3.  Data Collection
 
-Filters were applied to isolate Event ID 4625 entries in order to identify unsuccessful authentication attempts.
+Security event logs were collected using the Windows Event Viewer.
+<img width="1744" height="309" alt="image" src="https://github.com/user-attachments/assets/5ac50313-c0f4-4f27-a8dc-a7aa98c6ae03" />
 
-The following key fields were analyzed:
-- Account Name (targeted user)
-- Source Network Address (origin of the attempt)
-- Logon Type (method of access, e.g., RDP)
-- Time Generated (timestamp of each attempt)
+ Log Details
+Tool Used: Event Viewer (Windows Logs → Security)
 
-This approach allowed the identification of repeated failed logon patterns and potential unauthorized access attempts.
-   
-4. Analysis
-The analysis of Event ID 4625 logs revealed a high frequency of failed logon attempts within short time intervals, indicating a non-human pattern of activity.
+Event ID: 4625 (Failed Logon)
 
-Multiple failed attempts were observed targeting the same user account, suggesting a possible brute force attack.
+Log Source: Security Logs
+ Fields Analyzed
+Account Name (targeted user)
+Source Network Address (origin IP)
+Logon Type (authentication method)
+Time Generated (timestamp)
 
-Key observations:
+Filters were applied to isolate failed authentication attempts and identify suspicious patterns.
 
-- Repeated login failures occurred within seconds
-<img width="1494" height="340" alt="image" src="https://github.com/user-attachments/assets/b06a5bac-cbd0-4e40-bf6f-a7fa865744f3" />
+4.  Analysis
 
-- The same account was targeted multiple times
-- Logon Type 10 was identified in several events, indicating attempts via Remote Desktop Protocol (RDP)
-- Source Network Address showed external IP addresses, not associated with the internal network
-<img width="1887" height="428" alt="image" src="https://github.com/user-attachments/assets/5ca4573e-b734-471d-82fc-a49c446d56ff" />
+The analysis of Event ID 4625 logs revealed multiple failed authentication attempts across different access methods.
 
-The pattern of behavior strongly suggests automated login attempts rather than manual user error.
+ Observed Patterns
+Repeated login failures occurring within seconds
+<img width="1494" height="340" alt="image" src="https://github.com/user-attachments/assets/b1ed578b-7f4f-4d5a-bcbf-0f6866f189be" />
 
-This activity is consistent with brute force or credential stuffing attacks commonly observed on exposed RDP services.
-<img width="1554" height="349" alt="image" src="https://github.com/user-attachments/assets/f71c4115-d745-458f-96b6-85d18babb42f" />
 
-5. Findings
-The investigation confirmed the presence of multiple failed logon attempts consistent with a brute force attack targeting the RDP service.
+The same user account targeted multiple times
+Presence of Logon Type 10 (RDP) events
+Source IP addresses identified as external/untrusted
+<img width="1887" height="428" alt="image" src="https://github.com/user-attachments/assets/71dac9f2-ff25-4f99-b8e2-d0d05a6ee6a3" />
 
-Evidence supporting this conclusion includes:
 
-- High frequency of failed logon events (Event ID 4625) within short time intervals
-- Repeated targeting of the same user account
-- Logon Type 10 identified, indicating Remote Desktop (RDP) access attempts
-- Source Network Addresses originating from external, non-trusted IPs
+Additional authentication attempts via other logon types
+<img width="1554" height="349" alt="image" src="https://github.com/user-attachments/assets/fa098f2b-5e40-4f9c-a542-7beddc67cc85" />
 
-This behavior is characteristic of automated attack tools attempting to gain unauthorized access.
+ Behavioral Analysis
+High frequency of failed logins suggests automated activity
+Repeated targeting of a single account indicates focused attack behavior
+Presence of RDP attempts confirms exposure of remote access services
+
+Overall, the pattern is consistent with automated authentication attempts rather than normal user behavior.
+
+5.  Findings
+
+The investigation identified multiple failed logon attempts consistent with suspicious authentication activity.
+
+ Key Evidence
+High frequency of failed logon events (Event ID 4625)
+Repeated targeting of the same user account
+Logon Type 10 confirming RDP access attempts
+External source IP addresses involved
+ Risk Assessment
 
 Risk Level: Medium to High
 
-If left unmitigated, this exposure could lead to successful unauthorized access, especially if weak credentials are in use.
+If not mitigated, this exposure could lead to unauthorized access, particularly in environments with weak credentials or no additional security controls.
 
-This suggests either:
-- Incorrect credential usage from a legitimate internal system
-- Misconfigured services attempting authentication
-- Or potential unauthorized lateral movement within the network
+6.  Mitigation
 
-Although not confirmed as malicious, the behavior is considered suspicious and requires further investigation.
+Based on the analysis, the following security measures are recommended:
 
-6. Mitigation
-Based on the analysis of failed login attempts, the following measures are recommended:
+6.1 Account Protection
+Implement Account Lockout Policy
+Enforce strong password policies
+6.2 Network Authentication Hardening (High Priority)
+Restrict access to network services (SMB, RPC) via firewall
+Allow connections only from trusted IP ranges
+Disable unnecessary services
+6.3 RDP Security
+Restrict RDP access by IP
+Enable Network Level Authentication (NLA)
+Disable RDP when not required
+6.4 Monitoring and Detection
+Monitor Event ID 4625 continuously
+Create alerts for:
+High number of failed logins
+Repeated attempts from a single IP
+Integrate logs with SIEM (e.g., Wazuh, Splunk)
+6.5 Additional Hardening
+Rename or disable default accounts (e.g., Administrator)
+Apply least privilege principle
+7.  Future Improvements
+Automate detection using PowerShell scripts
+Correlate failed (4625) and successful (4624) logins
+Implement alerting and response automation
+8. 📎 Conclusion
 
-### 1. Account Protection
-- Implement **Account Lockout Policy** to block repeated failed attempts  
-- Enforce strong password policies (complexity and length)  
+This project demonstrated how to simulate and analyze failed authentication attempts in a Windows environment, replicating patterns commonly associated with brute force attacks.
 
-### 2. Network Authentication Hardening (High Priority)
-- Restrict access to network services (SMB, RPC) using firewall rules  
-- Limit inbound connections to trusted IP addresses only  
-- Disable unnecessary network services to reduce attack surface  
+The observed behavior highlights how exposed services like RDP can become targets and reinforces the importance of continuous monitoring and log analysis.
 
-### 3. RDP Security (Secondary Risk)
-- Restrict RDP access to specific IP ranges  
-- Enable **Network Level Authentication (NLA)**  
-- Disable RDP if not required  
-
-### 4. Monitoring and Detection
-- Continuously monitor **Event ID 4625** for abnormal patterns  
-- Create alerts for:
-  - High number of failed logins in short time  
-  - Repeated attempts from a single IP  
-- Integrate logs with a SIEM (e.g., Wazuh, Splunk)  
-
-### 4. Additional Hardening
-- Rename or disable default accounts (e.g., Administrator)  
-- Use least privilege principle for user accounts  
- ### 6. Future Improvement
-- Implement automated detection using PowerShell scripts  
-- Correlate failed (4625) and successful (4624) logins  
-- Block IPs dynamically after threshold violations  
-
-7. Conclusion
-Through this project, it was possible to simulate and analyze failed authentication attempts in a Windows environment, replicating patterns commonly associated with brute force attacks.
-
-Although the activity originated from a controlled internal source, the observed behavior closely mirrors real-world attack scenarios, demonstrating how easily exposed services like RDP can become targets.
-
-This exercise emphasized the importance of log analysis as a critical component of security monitoring and highlighted the risks of inadequate access controls.
-
-The implementation of mitigation strategies further reinforced the concept of defense in depth, showing that effective security relies on multiple layers of protection rather than a single control.
+Additionally, the implementation of mitigation strategies emphasizes the concept of defense in depth, where multiple security layers are required to effectively reduce risk.
 
 This project contributes to the development of practical skills in threat detection, analysis, and response within Windows-based environments.
-
