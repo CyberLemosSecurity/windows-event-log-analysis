@@ -45,13 +45,17 @@ Multiple failed attempts were observed targeting the same user account, suggesti
 Key observations:
 
 - Repeated login failures occurred within seconds
+<img width="1494" height="340" alt="image" src="https://github.com/user-attachments/assets/b06a5bac-cbd0-4e40-bf6f-a7fa865744f3" />
+
 - The same account was targeted multiple times
 - Logon Type 10 was identified in several events, indicating attempts via Remote Desktop Protocol (RDP)
 - Source Network Address showed external IP addresses, not associated with the internal network
+<img width="1887" height="428" alt="image" src="https://github.com/user-attachments/assets/5ca4573e-b734-471d-82fc-a49c446d56ff" />
 
 The pattern of behavior strongly suggests automated login attempts rather than manual user error.
 
 This activity is consistent with brute force or credential stuffing attacks commonly observed on exposed RDP services.
+<img width="1554" height="349" alt="image" src="https://github.com/user-attachments/assets/f71c4115-d745-458f-96b6-85d18babb42f" />
 
 5. Findings
 The investigation confirmed the presence of multiple failed logon attempts consistent with a brute force attack targeting the RDP service.
