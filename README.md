@@ -81,17 +81,36 @@ This suggests either:
 Although not confirmed as malicious, the behavior is considered suspicious and requires further investigation.
 
 6. Mitigation
-To mitigate brute force attacks targeting RDP services, the following security measures are recommended:
+Based on the analysis of failed login attempts, the following measures are recommended:
 
-- Restrict RDP access using firewall rules or VPN instead of exposing it directly to the internet
-- Implement account lockout policies to prevent repeated login attempts
-- Enforce strong password policies to reduce the risk of credential compromise
-- Limit RDP access to authorized users only (principle of least privilege)
-- Enable monitoring of failed logon attempts (Event ID 4625) for early detection
-- Apply Multi-Factor Authentication (MFA) where possible
-- Optionally change the default RDP port to reduce automated scanning attempts
+### 1. Account Protection
+- Implement **Account Lockout Policy** to block repeated failed attempts  
+- Enforce strong password policies (complexity and length)  
 
-These measures significantly reduce the attack surface and improve the overall security posture of the system.
+### 2. Network Authentication Hardening (High Priority)
+- Restrict access to network services (SMB, RPC) using firewall rules  
+- Limit inbound connections to trusted IP addresses only  
+- Disable unnecessary network services to reduce attack surface  
+
+### 3. RDP Security (Secondary Risk)
+- Restrict RDP access to specific IP ranges  
+- Enable **Network Level Authentication (NLA)**  
+- Disable RDP if not required  
+
+### 4. Monitoring and Detection
+- Continuously monitor **Event ID 4625** for abnormal patterns  
+- Create alerts for:
+  - High number of failed logins in short time  
+  - Repeated attempts from a single IP  
+- Integrate logs with a SIEM (e.g., Wazuh, Splunk)  
+
+### 4. Additional Hardening
+- Rename or disable default accounts (e.g., Administrator)  
+- Use least privilege principle for user accounts  
+ ### 6. Future Improvement
+- Implement automated detection using PowerShell scripts  
+- Correlate failed (4625) and successful (4624) logins  
+- Block IPs dynamically after threshold violations  
 
 7. Conclusion
 Through this project, it was possible to simulate and analyze failed authentication attempts in a Windows environment, replicating patterns commonly associated with brute force attacks.
