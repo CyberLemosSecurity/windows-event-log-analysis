@@ -49,6 +49,7 @@ The analysis of Event ID 4625 logs revealed multiple failed authentication attem
 - Logon Type 3 (Network): 19 events  
 - Logon Type 10 (RDP): 3 events  
 - Logon Type 2 (Local): 5 events
+A total of 27 failed login attempts were identified during the analysis period.
 <img width="1494" height="340" alt="image" src="https://github.com/user-attachments/assets/849ab907-fd75-4031-8e76-1794112e10e9" />
 
 <img width="1554" height="349" alt="image" src="https://github.com/user-attachments/assets/fa098f2b-5e40-4f9c-a542-7beddc67cc85" />
@@ -58,7 +59,6 @@ The analysis of Event ID 4625 logs revealed multiple failed authentication attem
 - The same user account targeted multiple times  
 - Presence of Logon Type 10 events, indicating RDP access attempts  
 - Majority of attempts associated with Logon Type 3 (network-based authentication)  
-/>
 ###  Behavioral Analysis
 
 - The high frequency of network-based failed logins (Logon Type 3) suggests possible automated or non-interactive authentication attempts  
@@ -79,6 +79,7 @@ Repeated targeting of the same user account
 Logon Type 10 confirming RDP access attempts
 External source IP addresses involved
  Risk Assessment
+- Repeated authentication attempts were observed from the same source IP address, indicating potential automated behavior
 
 Risk Level: Medium to High
 
@@ -99,7 +100,7 @@ Disable unnecessary services
 Restrict RDP access by IP
 Enable Network Level Authentication (NLA)
 Disable RDP when not required
-6.4 Monitoring and Detection
+6.4 Monitoring
 Monitor Event ID 4625 continuously
 Create alerts for:
 High number of failed logins
@@ -112,7 +113,19 @@ Apply least privilege principle
 Automate detection using PowerShell scripts
 Correlate failed (4625) and successful (4624) logins
 Implement alerting and response automation
-8.  Conclusion
+
+8.  Attack Indicators
+
+The following indicators were identified during analysis:
+
+- Multiple failed login attempts within short intervals  
+- Repeated attempts targeting a single account  
+- Authentication attempts from external IP addresses  
+- Presence of both network and RDP-based logon attempts  
+
+
+
+9.  Conclusion
 
 This project demonstrated how to simulate and analyze failed authentication attempts in a Windows environment, replicating patterns commonly associated with brute force attacks.
 
