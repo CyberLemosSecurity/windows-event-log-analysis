@@ -91,24 +91,29 @@ Based on the analysis, the following security measures are recommended:
 
 6.1 Account Protection
 Implement Account Lockout Policy
-Enforce strong password policies
+Enforce strong password policies.
+
 6.2 Network Authentication Hardening (High Priority)
 Restrict access to network services (SMB, RPC) via firewall
 Allow connections only from trusted IP ranges
-Disable unnecessary services
+Disable unnecessary services.
+
 6.3 RDP Security
 Restrict RDP access by IP
 Enable Network Level Authentication (NLA)
-Disable RDP when not required
+Disable RDP when not required.
+
 6.4 Monitoring
 Monitor Event ID 4625 continuously
 Create alerts for:
 High number of failed logins
 Repeated attempts from a single IP
-Integrate logs with SIEM (e.g., Wazuh, Splunk)
+Integrate logs with SIEM (e.g., Wazuh, Splunk).
+
 6.5 Additional Hardening
 Rename or disable default accounts (e.g., Administrator)
-Apply least privilege principle
+Apply least privilege principle.
+
 7.  Future Improvements
 Automate detection using PowerShell scripts
 Correlate failed (4625) and successful (4624) logins
